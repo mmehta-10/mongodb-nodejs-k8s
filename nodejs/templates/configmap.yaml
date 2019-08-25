@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-config
+data:
+  MONGO_HOSTNAME: "mongo-mongodb-replicaset-0.mongo-mongodb-replicaset.default.svc.cluster.local"  
+  MONGO_PORT: "27017"
+  MONGO_DB: "sample"
+  MONGO_REPLICASET: "db"
+  
+# Add the following code to the file to define the MONGO_HOSTNAME, MONGO_PORT, MONGO_DB, and MONGO_REPLICASET variables. You are free to use another name for your MONGO_DB database, but your MONGO_HOSTNAME and MONGO_REPLICASET values must be written as they appear here:
