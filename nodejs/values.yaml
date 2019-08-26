@@ -24,7 +24,8 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   hosts:
     - host: example.com
-      paths: /users
+      paths: 
+        - /users
 
   tls: []
   #  - secretName: chart-example-tls
