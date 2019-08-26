@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-config
 data:
-  MONGO_HOSTNAME: "mongo-mongodb-replicaset-0.mongo-mongodb-replicaset.default.svc.cluster.local"  
+  MONGO_HOSTNAME: "mongo-0.mongo.default.svc.cluster.local"  
   MONGO_PORT: "27017"
   MONGO_DB: "sample"
   MONGO_REPLICASET: "db"
