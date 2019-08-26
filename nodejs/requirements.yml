@@ -1,0 +1,8 @@
+dependencies:
+  - name: mongodb
+    version: 1.2.3
+    repository: https://kubernetes-charts.storage.googleapis.com/
+    condition: mongodb.enabled
+    
+    # Once a requirements.yaml file is created, you must run the dependency update  command in the Helm client:
+    # $ helm dep update
