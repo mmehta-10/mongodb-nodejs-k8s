@@ -3,10 +3,33 @@ kind: StorageClass
 metadata:
   name: fast
 provisioner: kubernetes.io/no-provisioner
-#parameters:
-#  type: gp2
 reclaimPolicy: Retain
 mountOptions:
   - debug
 volumeBindingMode: WaitForFirstConsumer
 #  kubectl patch storageclass standard1 -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: test-pv
+spec:
+  capacity:
+    storage: 2Gi
+  # volumeMode field requires BlockVolume Alpha feature gate to be enabled.
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: fast
+  local:
+    path: /mnt/data
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+  # kubectl label nodes ii02-aut-lnx-node2 role=master
+      - matchExpressions:
+        - key: role
+          operator: In
+          values:
+          - master 
