@@ -34,7 +34,18 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
         - name: mongo
-          image: mongo:4.2
+          image: mongo:4.2.0
+          env:
+          - name: MONGODB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: mongo-init-credentials
+                key: init.userid
+          - name: MONGODB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mongo-init-credentials
+                key: init.password          
           command:
           - /bin/sh
           - -c
@@ -55,7 +66,7 @@ spec:
                     sleep 5;
                     touch /data/db/admin-user.lock
                     if [ "$HOSTNAME" = "mongo-0" ]; then
-                      mongo --eval 'db = db.getSiblingDB("admin"); db.createUser({ user: "admin", pwd: "password", roles: [{ role: "root", db: "admin" }]});';
+                      mongo --eval 'db = db.getSiblingDB("admin"); db.createUser({ user: '${MONGODB_USERNAME}', pwd: '${MONGODB_PASSWORD}', roles: [{ role: "root", db: "admin" }]});';
                     fi;
                     mongod --shutdown;
                   fi;
@@ -72,12 +83,19 @@ spec:
           env:
             - name: MONGO_SIDECAR_POD_LABELS
               value: "role=mongo,environment=test"
-            - name: MONGODB_USERNAME
-              value: admin
-            - name: MONGODB_PASSWORD
-              value: password
             - name: MONGODB_DATABASE
-              value: admin
+              value: sample
+            - name: MONGODB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-init-credentials
+                  key: init.userid
+            - name: MONGODB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-init-credentials
+                  key: init.password          
+
       volumes:
       - name: mongo-key
         secret:
@@ -86,8 +104,6 @@ spec:
   volumeClaimTemplates:
   - metadata:
       name: mongo-persistent-storage
-#      annotations:
-#        volume.beta.kubernetes.io/storage-class: "fast"
     spec:
       accessModes: [ "ReadWriteOnce" ]
       storageClassName: "fast"
