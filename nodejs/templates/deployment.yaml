@@ -25,27 +25,27 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-          - name: MONGO_USERNAME
+          - name: DB_USERNAME
             valueFrom:
               secretKeyRef:
                 key: MONGO_USERNAME
                 name: {{ .Release.Name }}-auth
-          - name: MONGO_PASSWORD
+          - name: DB_PASSWORD
             valueFrom:
               secretKeyRef:
                 key: MONGO_PASSWORD
                 name: {{ .Release.Name }}-auth
-          - name: MONGO_HOSTNAME
+          - name: DB_HOST
             valueFrom:
               configMapKeyRef:
                 key: MONGO_HOSTNAME
                 name: {{ .Release.Name }}-config
-          - name: MONGO_PORT
+          - name: DB_PORT
             valueFrom:
               configMapKeyRef:
                 key: MONGO_PORT
                 name: {{ .Release.Name }}-config
-          - name: MONGO_DB
+          - name: DB_DATABASE
             valueFrom:
               configMapKeyRef:
                 key: MONGO_DB
