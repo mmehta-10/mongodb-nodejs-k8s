@@ -59,14 +59,14 @@ spec:
             - name: http
               containerPort: 3000
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /users
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /users
-              port: http
+          # livenessProbe:
+          #   httpGet:
+          #     path: /users
+          #     port: http
+          # readinessProbe:
+          #   httpGet:
+          #     path: /users
+          #     port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
