@@ -95,7 +95,6 @@ spec:
                 secretKeyRef:
                   name: mongo-init-credentials
                   key: init.password          
-
       volumes:
       - name: mongo-key
         secret:
